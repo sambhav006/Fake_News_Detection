@@ -10,6 +10,7 @@ import FeatureSelection
 import numpy as np
 import pandas as pd
 import pickle
+from sklearn import metrics
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -69,7 +70,7 @@ np.mean(predicted_svm == DataPrep.test_news['Label'])
 #using SVM Stochastic Gradient Descent on hinge loss
 sgd_pipeline = Pipeline([
         ('svm2CV',FeatureSelection.countV),
-        ('svm2_clf',SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5))
+        ('svm2_clf',SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, max_iter=5))
         ])
 
 sgd_pipeline.fit(DataPrep.train_news['Statement'],DataPrep.train_news['Label'])
@@ -192,7 +193,7 @@ np.mean(predicted_svm_ngram == DataPrep.test_news['Label'])
 #sgd classifier
 sgd_pipeline_ngram = Pipeline([
          ('sgd_tfidf',FeatureSelection.tfidf_ngram),
-         ('sgd_clf',SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, n_iter=5))
+         ('sgd_clf',SGDClassifier(loss='hinge', penalty='l2', alpha=1e-3, max_iter=5))
          ])
 
 sgd_pipeline_ngram.fit(DataPrep.train_news['Statement'],DataPrep.train_news['Label'])
